@@ -24,6 +24,10 @@ public class DriveTrain extends Subsystem{
 	{
 		robotDrive.arcadeDrive(speed, rotation);
 	}
+	public void tankDrive(double leftSpeed, double rightSpeed)
+	{
+		robotDrive.tankDrive(leftSpeed, rightSpeed);
+	}
 	public void resetEncoders()
 	{
 		

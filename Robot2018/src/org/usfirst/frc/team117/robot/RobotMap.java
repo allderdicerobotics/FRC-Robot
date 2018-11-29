@@ -41,5 +41,4 @@ public class RobotMap {
 	public static final double STEERING_SCALE = 0.6;
 	
 	//Distance constants
-	public static final double INCHES_PER_ROTATION = 18.849555921538759430775860299677;
 }

@@ -9,6 +9,7 @@ package org.usfirst.frc.team117.robot;
 
 import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -16,10 +17,8 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import org.usfirst.frc.team117.robot.commands.AutonomousRightSwitch;
-import org.usfirst.frc.team117.robot.commands.AutonomousForward;
-import org.usfirst.frc.team117.robot.commands.AutonomousForwardMiddle;
-import org.usfirst.frc.team117.robot.commands.AutonomousLeftSwitch;
+import org.usfirst.frc.team117.robot.commands.Autonomous;
+import org.usfirst.frc.team117.robot.commands.AutonomousStraight;
 import org.usfirst.frc.team117.robot.commands.TeleopDrive;
 import org.usfirst.frc.team117.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team117.robot.subsystems.Elevator;
@@ -56,10 +55,6 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		m_oi = new OI();
 		m_chooser = new SendableChooser<>();
-		m_chooser.addDefault("Forward", new AutonomousForward());
-		m_chooser.addObject("Forward Middle", new AutonomousForwardMiddle());
-		m_chooser.addObject("Right Side (Switch)", new AutonomousRightSwitch());
-		m_chooser.addObject("Left Side (Switch)", new AutonomousLeftSwitch());
 		SmartDashboard.putData("Auto modes", m_chooser);
 		driveTrain.setDefaultCommand(new TeleopDrive(driveTrain));
 		setUpCameraServer();
@@ -97,8 +92,11 @@ private void setUpCameraServer() {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
-
+//		m_autonomousCommand = m_chooser.getSelected();
+		String gameData;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		m_autonomousCommand = new Autonomous();
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -108,7 +106,7 @@ private void setUpCameraServer() {
 
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+				m_autonomousCommand.start();
 		}
 	}
 
@@ -118,6 +116,7 @@ private void setUpCameraServer() {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putString("m_chooser", m_chooser.getName());
 	}
 
 	@Override
@@ -127,7 +126,7 @@ private void setUpCameraServer() {
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
 		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+				m_autonomousCommand.cancel();
 		}
 	}
 
