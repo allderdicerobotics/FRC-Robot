@@ -20,8 +20,8 @@ public class AutonomousStraight extends Command{
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.driveTrain.tankDrive((RobotMap.THROTTLE_SCALE)/2, (RobotMap.THROTTLE_SCALE)/2);
-    }
+    	Robot.driveTrain.tankDrive(-(RobotMap.THROTTLE_SCALE), -(RobotMap.THROTTLE_SCALE));
+    }//my dick is hard
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
